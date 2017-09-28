@@ -1,28 +1,89 @@
-.App {
-  text-align: center;
-}
+@import url("https://fonts.googleapis.com/css?family=Alegreya|Bellefair|Bree+Serif|Cinzel|Cormorant+Upright|Gurajada|Lora|Marko+One|Calligraffitti|Merienda");
+body {
+  background: repeating-linear-gradient(40deg, rgba(11, 36, 45, 0.15), rgba(11, 36, 45, 0.15) 2rem, rgba(211, 119, 111, 0.15) 2rem, rgba(211, 119, 111, 0.15) 4rem, rgba(211, 119, 111, 0.35) 4rem, rgba(211, 119, 111, 0.35) 6rem, rgba(11, 36, 45, 0.25) 6rem, rgba(11, 36, 45, 0.25) 8rem, rgba(247, 179, 85, 0.35) 8rem, rgba(247, 179, 85, 0.35) 10rem, rgba(247, 179, 85, 0.05) 10rem, rgba(247, 179, 85, 0.05) 12rem), repeating-linear-gradient(-50deg, rgba(247, 179, 85, 0.05), rgba(247, 179, 85, 0.05) 2rem, rgba(247, 179, 85, 0.35) 2rem, rgba(247, 179, 85, 0.35) 4rem, rgba(11, 36, 45, 0.25) 4rem, rgba(11, 36, 45, 0.25) 6rem, rgba(211, 119, 111, 0.35) 6rem, rgba(211, 119, 111, 0.35) 8rem, rgba(211, 119, 111, 0.15) 8rem, rgba(211, 119, 111, 0.15) 10rem, rgba(11, 36, 45, 0.15) 10rem, rgba(11, 36, 45, 0.15) 12rem);
+  background-blend-mode: multiply;
+  background-size: 500% 500%;
+  background-attachment: fixed; }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
+.body {
+  background-color: #e9d4b9;
+  background-image: repeating-linear-gradient(45deg, transparent 5px, rgba(11, 36, 45, 0.35) 5px, rgba(11, 36, 45, 0.35) 10px, rgba(211, 119, 111, 0) 10px, rgba(211, 119, 111, 0) 35px, rgba(211, 119, 111, 0.35) 35px, rgba(211, 119, 111, 0.35) 40px, rgba(11, 36, 45, 0.35) 40px, rgba(11, 36, 45, 0.35) 50px, rgba(11, 36, 45, 0) 50px, rgba(11, 36, 45, 0) 60px, rgba(211, 119, 111, 0.35) 60px, rgba(211, 119, 111, 0.35) 70px, rgba(247, 179, 85, 0.5) 70px, rgba(247, 179, 85, 0.5) 80px, rgba(247, 179, 85, 0) 80px, rgba(247, 179, 85, 0) 90px, rgba(211, 119, 111, 0.35) 90px, rgba(211, 119, 111, 0.35) 110px, rgba(211, 119, 111, 0) 110px, rgba(211, 119, 111, 0) 120px, rgba(11, 36, 45, 0.35) 120px, rgba(11, 36, 45, 0.35) 140px), repeating-linear-gradient(135deg, transparent 5px, rgba(11, 36, 45, 0.35) 5px, rgba(11, 36, 45, 0.35) 10px, rgba(211, 119, 111, 0) 10px, rgba(211, 119, 111, 0) 35px, rgba(211, 119, 111, 0.35) 35px, rgba(211, 119, 111, 0.35) 40px, rgba(11, 36, 45, 0.35) 40px, rgba(11, 36, 45, 0.35) 50px, rgba(11, 36, 45, 0) 50px, rgba(11, 36, 45, 0) 60px, rgba(211, 119, 111, 0.35) 60px, rgba(211, 119, 111, 0.35) 70px, rgba(247, 179, 85, 0.5) 70px, rgba(247, 179, 85, 0.5) 80px, rgba(247, 179, 85, 0) 80px, rgba(247, 179, 85, 0) 90px, rgba(211, 119, 111, 0.35) 90px, rgba(211, 119, 111, 0.35) 110px, rgba(211, 119, 111, 0) 110px, rgba(211, 119, 111, 0) 140px, rgba(11, 36, 45, 0.35) 140px, rgba(11, 36, 45, 0.35) 160px);
+  background-blend-mode: multiply;
+  background-size: 500% 500%;
+  background-attachment: fixed; }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
+.title {
+  font-family: 'Merienda', cursive;
+  font-size: 10vw;
+  font-weight: 900;
+  opacity: 0.9;
+  text-shadow: 3px 3px 4px #000; }
 
-.App-title {
-  font-size: 1.5em;
-}
+.modal {
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); }
 
-.App-intro {
-  font-size: large;
-}
+.panel-modal {
+  margin-top: 10vh; }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+.panel-req {
+  color: red;
+  font-weight: bolder; }
+
+.subtitle {
+  font-family: 'Marko One', serif; }
+
+#clearSearch {
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.8;
+  font-size: 1.8em;
+  padding: 0px 10px; }
+
+#clearSearch:hover {
+  opacity: 1; }
+
+.list-group-item-heading {
+  font-family: 'Cinzel', serif; }
+
+.panel-heading {
+  font-size: 2.5em;
+  font-family: 'Gurajada', serif;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important; }
+
+.panel-body {
+  font-family: 'Bellefair', serif;
+  font-size: 1.2em; }
+
+.panel-body > h4 {
+  font-family: 'Bree Serif', serif; }
+
+.panel-group {
+  font-family: 'Lora', serif;
+  box-shadow: 5px 5px 7px #888; }
+
+.btn-pad, .btn-pad {
+  margin: 0 1em !important; }
+
+.btn-group {
+  float: right;
+  margin: -11px -23px 0 0;
+  padding: 0 0.5em; }
+
+.badge {
+  margin: 0em 1em; }
+
+.list-group, .panel-group {
+  opacity: 0.95; }
+
+.list-group-item-heading, .output-title, .list-group-item-text::first-letter, .output-description::first-letter, .output-ingredients, .output-steps::first-letter {
+  text-transform: capitalize; }
+
+.list-group-item-text, .output-description {
+  font-style: italic; }

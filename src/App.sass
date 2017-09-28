@@ -1,0 +1,129 @@
+
+// https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css
+@import url('https://fonts.googleapis.com/css?family=Alegreya|Bellefair|Bree+Serif|Cinzel|Cormorant+Upright|Gurajada|Lora|Marko+One|Calligraffitti|Merienda')
+
+// colors for background
+$color1: hsla(197, 62%, 11%, 0.15)// rgba(255, 204,  0,  .05)
+$color2: hsla(5, 53%, 63%, 0.15) //rgba(191, 214, 47,  .15)
+$color3: hsla(5, 53%, 63%, 0.35) //rgba(133, 133, 133, .05)
+$color4: hsla(197, 62%, 11%, 0.25) //rgba(27,  185, 236, .25)
+$color5: hsla(35, 91%, 65%, 0.35) //rgba(163, 163, 163, .25)
+$color6: hsla(35, 91%, 65%, 0.05) //rgba(232,   7, 131, .15)
+
+body
+	background: repeating-linear-gradient( 40deg, $color1, $color1 2rem, $color2 2rem, $color2 4rem, $color3 4rem, $color3 6rem, $color4 6rem, $color4 8rem, $color5 8rem, $color5 10rem, $color6 10rem, $color6 12rem ), repeating-linear-gradient( -50deg, $color6, $color6 2rem, $color5 2rem, $color5 4rem, $color4 4rem, $color4 6rem, $color3 6rem, $color3 8rem, $color2 8rem, $color2 10rem, $color1 10rem,$color1 12rem )
+	background-blend-mode: multiply
+	background-size: 500% 500%
+	background-attachment: fixed
+
+// colors for background 2
+$colorA: hsla(197, 62%, 11%, 0.35)
+$colorD: hsla(197, 62%, 11%, 0)
+
+$colorB: hsla(5, 53%, 63%, 0)
+$colorC: hsla(5, 53%, 63%, 0.35)
+
+$colorF: hsla(35, 91%, 65%, 0)
+$colorE: hsla(35, 91%, 65%, 0.5)
+
+.body
+	background-color: hsl(34, 53%, 82%)
+	background-image: repeating-linear-gradient(45deg, transparent 5px, $colorA 5px, $colorA 10px, $colorB 10px, $colorB 35px, $colorC 35px, $colorC 40px, $colorA 40px, $colorA 50px, $colorD 50px, $colorD 60px, $colorC 60px, $colorC 70px, $colorE 70px, $colorE 80px, $colorF 80px, $colorF 90px, $colorC 90px, $colorC 110px, $colorB 110px, $colorB 120px, $colorA 120px, $colorA 140px), repeating-linear-gradient(135deg, transparent 5px, $colorA 5px, $colorA 10px, $colorB 10px, $colorB 35px, $colorC 35px, $colorC 40px, $colorA 40px, $colorA 50px, $colorD 50px, $colorD 60px, $colorC 60px, $colorC 70px, $colorE 70px, $colorE 80px, $colorF 80px, $colorF 90px, $colorC 90px, $colorC 110px, $colorB 110px, $colorB 140px, $colorA 140px, $colorA 160px)
+	background-blend-mode: multiply
+	background-size: 500% 500%
+	background-attachment: fixed
+
+.title
+	font-family: 'Merienda', cursive
+	font-size: 10vw
+	font-weight: 900
+	// font-color: #DDD
+	opacity: 0.9
+	text-shadow: 3px 3px 4px #000
+	// text-decoration: double underline
+	// text-decoration-skip: ink
+
+.modal
+	// position: fixed
+	// display: none
+	z-index: 10 //Sit on top
+	left: 0
+	top: 0
+	width: 100% //Full width
+	height: 100% //Full height
+	overflow: auto //Enable scroll if needed
+	background-color: rgba(0,0,0,0.4) 
+
+.panel-modal
+	margin-top: 10vh
+
+.panel-req
+	color: red
+	font-weight: bolder
+
+.subtitle	
+	font-family: 'Marko One', serif
+
+#clearSearch
+  cursor: pointer
+  user-select: none
+  opacity: 0.8
+  font-size: 1.8em
+  padding: 0px 10px
+
+#clearSearch:hover
+  opacity: 1
+
+.list-group-item-heading
+	font-family: 'Cinzel', serif
+	// font-weight: bold
+	
+.panel-heading
+	font-size: 2.5em
+	// font-weight: bold
+	font-family: 'Gurajada', serif
+	padding-top: 0 !important
+	padding-bottom: 0 !important
+
+.panel-body
+	// font-family: 'Bree Serif', serif
+	// font-family: 'Alegreya', serif
+	font-family: 'Bellefair', serif
+	font-size: 1.2em
+	// font-family: 'Cormorant Upright', serif
+
+.panel-body>h4
+	font-family: 'Bree Serif', serif
+	
+.panel-group
+	font-family: 'Lora', serif
+	box-shadow: 5px 5px 7px #888
+
+
+.btn-pad, .btn-pad
+	margin: 0 1em !important
+
+.btn-edit
+	// float: right
+	// margin: -0.85em -1.25em 
+	// padding: 0 0.5em
+	// border-radius: 75%
+
+.btn-group
+	float: right
+	margin: -11px -23px 0 0
+	padding: 0 0.5em
+	// border-radius: 75%
+
+.badge
+	margin: 0em 1em 
+
+.list-group, .panel-group
+	opacity: 0.95
+
+.list-group-item-heading, .output-title, .list-group-item-text::first-letter, .output-description::first-letter, .output-ingredients, .output-steps::first-letter
+	text-transform: capitalize
+
+.list-group-item-text, .output-description
+	font-style: italic
+
