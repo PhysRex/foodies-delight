@@ -129,6 +129,7 @@ class App extends React.Component {
 				required: false
 			});
 		} else if (event===undefined || event.target.classList.contains("modal-hide")) {
+      this.clearContents();
 			this.setState({modal: false, required: false});
 		} else if (event.target.classList.contains("add-modal")) {
 			this.setState({modal: true, required: false});
@@ -243,7 +244,7 @@ class App extends React.Component {
 					<div className="col-xs-12 col-sm-6 col-md-5 col-lg-4">
 						<div className="row">
 							<h3 className="subtitle">
-								{this.state.edit} Recipe Book
+                Recipe Book
 								<button className="btn btn-success btn-xs btn-pad add-modal" onClick={this.showModal}>
 									add recipe
 								</button>
@@ -357,10 +358,16 @@ class List extends React.Component {
       recipes: this.props.recipes
     })
   }
+
+	componentWillReceiveProps(nextProps) {
+		// Called when the props provided to the component are changed
+    // console.log("props", nextProps);
+    // this.clearSearch();
+	}
 	
 	render() {
-    // const list = this.props.recipes;
-    const list = this.state.recipes;
+    const list = (this.state.search.length>0)?this.state.recipes:this.props.recipes;
+    // const list = this.state.recipes;
 		const panel = list.map( (elems, i)=>{			
 			return (
 				<a key={"no" + i} href="#" className={"list-group-item " + "no"+i} onClick={(e)=>this.clicked(e)}>
@@ -393,8 +400,8 @@ class List extends React.Component {
         </div>
         <div className="row">
           <div className="col-sm-12">					
-            <div className="panel-group">
-              <div className="panel panel-warning">
+            <div className="panel-group" >
+              <div className="panel panel-warning" id="recipePanel">
                 <div className="list-group text-left" id="recipeBook">
                   {panel}
                 </div>
@@ -414,13 +421,15 @@ class Recipe extends React.Component {
 	}
 	
 	render() {
-		const steps = this.props.recipe.steps.split(",").map((step,index)=> {
-			return  (
-				<li key={index} className="output-steps">{step}</li>
-				);
-		});
+    var steps, panel;
+    if (this.props.recipe) {
+      steps = this.props.recipe.steps.split(",").map((step,index)=> {
+        return  (
+          <li key={index} className="output-steps">{step}</li>
+          );
+      });
 		
-		const panel = 
+		panel = 
 				<div className="panel panel-warning text-left">
 					<div className="panel-heading output-title">{this.props.recipe.title}</div>
 					<div className="panel-body">
@@ -430,7 +439,16 @@ class Recipe extends React.Component {
 						<h4>Ingredients</h4>
 						<p className="output-ingredients">{this.props.recipe.ingredients}</p>
 						</div>
-				</div>;
+        </div>;
+              
+    } else {
+      panel = 
+        <div className="panel panel-warning text-center">
+          <div className="panel-heading output-title">
+            <em>Add your own recipe!</em>
+          </div>          
+        </div>;
+    }
 		
 		return (
 			<div className="container-fluid">

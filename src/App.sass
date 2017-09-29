@@ -1,6 +1,6 @@
 
 // https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css
-@import url('https://fonts.googleapis.com/css?family=Alegreya|Bellefair|Bree+Serif|Cinzel|Cormorant+Upright|Gurajada|Lora|Marko+One|Calligraffitti|Merienda')
+@import url('https://fonts.googleapis.com/css?family=Bellefair|Cinzel|Cormorant+Upright|Gurajada|Lora|Calligraffitti|Merienda|Pacifico')
 
 // colors for background
 $color1: hsla(197, 62%, 11%, 0.15)// rgba(255, 204,  0,  .05)
@@ -12,36 +12,36 @@ $color6: hsla(35, 91%, 65%, 0.05) //rgba(232,   7, 131, .15)
 
 body
 	background: repeating-linear-gradient( 40deg, $color1, $color1 2rem, $color2 2rem, $color2 4rem, $color3 4rem, $color3 6rem, $color4 6rem, $color4 8rem, $color5 8rem, $color5 10rem, $color6 10rem, $color6 12rem ), repeating-linear-gradient( -50deg, $color6, $color6 2rem, $color5 2rem, $color5 4rem, $color4 4rem, $color4 6rem, $color3 6rem, $color3 8rem, $color2 8rem, $color2 10rem, $color1 10rem,$color1 12rem )
-	background-blend-mode: multiply
-	background-size: 500% 500%
+	// background-blend-mode: multiply
+	background-size: 100% 100%
 	background-attachment: fixed
 
 // colors for background 2
-$colorA: hsla(197, 62%, 11%, 0.35)
-$colorD: hsla(197, 62%, 11%, 0)
+// $colorA: hsla(197, 62%, 11%, 0.35)
+// $colorD: hsla(197, 62%, 11%, 0)
 
-$colorB: hsla(5, 53%, 63%, 0)
-$colorC: hsla(5, 53%, 63%, 0.35)
+// $colorB: hsla(5, 53%, 63%, 0)
+// $colorC: hsla(5, 53%, 63%, 0.35)
 
-$colorF: hsla(35, 91%, 65%, 0)
-$colorE: hsla(35, 91%, 65%, 0.5)
+// $colorF: hsla(35, 91%, 65%, 0)
+// $colorE: hsla(35, 91%, 65%, 0.5)
 
-.body
-	background-color: hsl(34, 53%, 82%)
-	background-image: repeating-linear-gradient(45deg, transparent 5px, $colorA 5px, $colorA 10px, $colorB 10px, $colorB 35px, $colorC 35px, $colorC 40px, $colorA 40px, $colorA 50px, $colorD 50px, $colorD 60px, $colorC 60px, $colorC 70px, $colorE 70px, $colorE 80px, $colorF 80px, $colorF 90px, $colorC 90px, $colorC 110px, $colorB 110px, $colorB 120px, $colorA 120px, $colorA 140px), repeating-linear-gradient(135deg, transparent 5px, $colorA 5px, $colorA 10px, $colorB 10px, $colorB 35px, $colorC 35px, $colorC 40px, $colorA 40px, $colorA 50px, $colorD 50px, $colorD 60px, $colorC 60px, $colorC 70px, $colorE 70px, $colorE 80px, $colorF 80px, $colorF 90px, $colorC 90px, $colorC 110px, $colorB 110px, $colorB 140px, $colorA 140px, $colorA 160px)
-	background-blend-mode: multiply
-	background-size: 500% 500%
-	background-attachment: fixed
+// .body
+// 	background-color: hsl(34, 53%, 82%)
+// 	background-image: repeating-linear-gradient(45deg, transparent 5px, $colorA 5px, $colorA 10px, $colorB 10px, $colorB 35px, $colorC 35px, $colorC 40px, $colorA 40px, $colorA 50px, $colorD 50px, $colorD 60px, $colorC 60px, $colorC 70px, $colorE 70px, $colorE 80px, $colorF 80px, $colorF 90px, $colorC 90px, $colorC 110px, $colorB 110px, $colorB 120px, $colorA 120px, $colorA 140px), repeating-linear-gradient(135deg, transparent 5px, $colorA 5px, $colorA 10px, $colorB 10px, $colorB 35px, $colorC 35px, $colorC 40px, $colorA 40px, $colorA 50px, $colorD 50px, $colorD 60px, $colorC 60px, $colorC 70px, $colorE 70px, $colorE 80px, $colorF 80px, $colorF 90px, $colorC 90px, $colorC 110px, $colorB 110px, $colorB 140px, $colorA 140px, $colorA 160px)
+// 	background-blend-mode: multiply
+// 	background-size: 500% 500%
+// 	background-attachment: fixed
 
 .title
-	font-family: 'Merienda', cursive
 	font-size: 10vw
 	font-weight: 900
-	// font-color: #DDD
-	opacity: 0.9
-	text-shadow: 3px 3px 4px #000
-	// text-decoration: double underline
-	// text-decoration-skip: ink
+	color: rgba(255, 187, 160, 0.9)
+	text-shadow: 0px 0px 10px #000
+
+.title
+  font-family: 'Pacifico', serif
+  margin-bottom: 30px
 
 .modal
 	// position: fixed
@@ -57,12 +57,18 @@ $colorE: hsla(35, 91%, 65%, 0.5)
 .panel-modal
 	margin-top: 10vh
 
+.panel-modal label
+  font-weight: normal
+
 .panel-req
 	color: red
 	font-weight: bolder
 
-.subtitle	
-	font-family: 'Marko One', serif
+.subtitle		
+  font-size: 2em
+  color: rgba(60, 60, 60, 0.9)
+  font-weight: bold
+  font-family: 'Merienda', serif
 
 #clearSearch
   cursor: pointer
@@ -73,6 +79,9 @@ $colorE: hsla(35, 91%, 65%, 0.5)
 
 #clearSearch:hover
   opacity: 1
+  
+#clearSearch:active
+  background: #ddd
 
 .list-group-item-heading
 	font-family: 'Cinzel', serif
@@ -86,8 +95,6 @@ $colorE: hsla(35, 91%, 65%, 0.5)
 	padding-bottom: 0 !important
 
 .panel-body
-	// font-family: 'Bree Serif', serif
-	// font-family: 'Alegreya', serif
 	font-family: 'Bellefair', serif
 	font-size: 1.2em
 	// font-family: 'Cormorant Upright', serif
@@ -97,7 +104,7 @@ $colorE: hsla(35, 91%, 65%, 0.5)
 	
 .panel-group
 	font-family: 'Lora', serif
-	box-shadow: 5px 5px 7px #888
+	box-shadow: 3px 3px 15px #888
 
 
 .btn-pad, .btn-pad
@@ -127,3 +134,34 @@ $colorE: hsla(35, 91%, 65%, 0.5)
 .list-group-item-text, .output-description
 	font-style: italic
 
+
+// #################################
+// ##### Scrollbar css styling #####
+// ##### --------------------- #####
+
+#recipePanel
+  // display: flex
+
+#recipeBook 
+  overflow-y: auto
+  overflow-x: hidden
+  max-height: 50vh
+  padding-top: -2px !important
+  padding-right: 5px !important
+
+
+#recipeBook::-webkit-scrollbar 
+  width: 0.3em
+  height: 0.3em
+
+
+#recipeBook::-webkit-scrollbar-track 
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+
+
+#recipeBook::-webkit-scrollbar-thumb
+  background-color: darkgrey
+  outline: 0.3 solid slategrey
+
+
+// #################################
