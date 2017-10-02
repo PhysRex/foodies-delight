@@ -7,6 +7,11 @@ import './App.css';
 https://www.robinwieruch.de/local-storage-react/
 https://codepen.io/ThePixelPixie/pen/oLmbLP?editors=0100
 http://lea.verou.me/css3patterns/#madras
+
+
+
+
+
 */
 
 
@@ -28,13 +33,13 @@ class App extends React.Component {
 				{title: "roast duck", description: "A delicious platter for a great night in", ingredients: "duck, glaze, rice, oven", steps: "preheat over to 325F, cut duck, drizzle with glaze, put into oven, make rice, serve together"}, 
 				{title: "orange chicken", description: "Sweet and succulent white meat dish", ingredients: "drumsticks, oranges, grill", steps: " preheat grill to 350F, slice oranges in half, glaze chicken, heat for 30 min, serve warm"}, 
         {title: "cool salad", description: "Healthy and filling vegetables", ingredients: "carrots, tomatoes, baby lettuce, spinach, kale, cucumbers, fetta, salt, pepper", steps: "slice all veggies, add salt, boil spinach, mix, serve cool"}
-      ]
-		};
-		
+			]
+		};		
 		
 		this.loadRecipes = this.loadRecipes.bind(this);
 		this.storeRecipes = this.storeRecipes.bind(this);
 		this.addRecipe = this.addRecipe.bind(this);
+		this.addRecipeAPI = this.addRecipeAPI.bind(this);
 		this.submitRecipe = this.submitRecipe.bind(this);
 		this.chooseRecipe = this.chooseRecipe.bind(this);
 		this.editRecipe = this.editRecipe.bind(this);
@@ -52,11 +57,16 @@ class App extends React.Component {
 		
 	}
 	
-	storeRecipes(recipesArrays) {
-		
-		// store recipes in State and Local Storage
-		this.setState({ recipes: recipesArrays});
-    localStorage.setItem("recipes", JSON.stringify(recipesArrays));
+	storeRecipes(recipesArrays) {		
+		// store recipes in State and Local Storage		
+		localStorage.setItem("recipes", JSON.stringify(recipesArrays));
+		this.setState({recipes: recipesArrays}, () => {
+			const lastIndex = recipesArrays.length-1;
+			this.chooseRecipe(lastIndex);
+			// if (recipesArrays[lastIndex] && recipesArrays[lastIndex].temp) {
+			// 	setTimeout(this.deleteRecipe(lastIndex),3000);
+			// }
+		});
 	}
 
   addRecipe(event) {
@@ -70,7 +80,7 @@ class App extends React.Component {
 	
 	submitRecipe(event, edit=this.state.edit) {
 		event.preventDefault();
-		// presss "submit" button
+		// press "submit" button
 		const newRecipe = {
 			title: this.state.title,
 			description: this.state.description,
@@ -81,36 +91,65 @@ class App extends React.Component {
 		newRecipes.splice((edit)?edit:newRecipes.length, 1, newRecipe);
 		
 		if(newRecipe.title !== "" && newRecipe.ingredients !== "") {
-			this.storeRecipes(newRecipes, edit);
+			this.storeRecipes(newRecipes);
 			this.showModal();	
 			this.clearContents();
 		} else {
 			this.setState({required: true});
 		}
 		
-		this.setState({edit:false});
-		
+		this.setState({edit:false});		
 	}
-	
+
+	addRecipeAPI(obj, temp) {
+		const recipe = obj.recipe;
+		const description = "#" + recipe.healthLabels.join(", #");
+
+		const newRecipe = {
+			title: recipe.label,
+			description: description,
+			ingredients: recipe.ingredientLines.join(","),
+			steps: false,
+			link: recipe.url,
+			linkName: recipe.source,
+			temp: temp
+		};
+		const newRecipes = this.state.recipes.slice();
+		newRecipes.push(newRecipe);
+		this.storeRecipes(newRecipes);
+
+	}
+
 	chooseRecipe(current) {
 		// choose recipe to display in "Recipe" panel
+		// if (API===true) {
+		// 	this.addRecipeAPI(current, API);
+		// } else {
+			
+		// }
 		this.setState({current: current});
 	}
 	
 	editRecipe(number) {
+		// replace with edited version
+		
 		this.showModal(number);
 		this.setState({
-				title: this.state.recipes[number].title,
-				description: this.state.recipes[number].description,
-				ingredients: this.state.recipes[number].ingredients,
-				steps: this.state.recipes[number].steps,
-				modal: true, 
-				required: false,
-				edit: number
-			});
+			title: this.state.recipes[number].title,
+			description: this.state.recipes[number].description,
+			ingredients: this.state.recipes[number].ingredients,
+			steps: this.state.recipes[number].steps,
+			modal: true, 
+			required: false,
+			edit: number
+		});
 		
-		// replace with edited version
-		// this.deleteRecipe(number);
+		if (!this.state.recipes[number].steps) {
+			this.setState({
+				steps: this.state.recipes[number].link,
+			});
+		}
+		
 	}
 	
 	deleteRecipe(number) {
@@ -119,6 +158,20 @@ class App extends React.Component {
 		this.setState({recipes: newRecipes});
 		
 		this.storeRecipes(newRecipes);
+	}
+
+	deleteTemp() {
+		let newRecipes = [];
+		this.state.recipes.forEach((recipe)=>{
+			if (!recipe.temp) {
+				// Keep Recipe
+				newRecipes.push(recipe);
+			} else {
+				// Delete recipe
+			}
+		});
+		this.storeRecipes(newRecipes);
+		return newRecipes;
 	}
 	
 	showModal(event) {
@@ -144,8 +197,7 @@ class App extends React.Component {
 			ingredients: "",
 			steps: "",
 		})
-  }
-
+	}
 	componentWillMount() {
 		// Called the first time the component is loaded right before the component is added to the page
 		
@@ -253,8 +305,10 @@ class App extends React.Component {
 								<List 
 									recipes={this.state.recipes} 
 									click={(current)=>this.chooseRecipe(current)}
+									addRecipeAPI={(obj, api)=>this.addRecipeAPI(obj, api)}
 									editRecipe={(current)=>this.editRecipe(current)}
 									deleteRecipe={(current)=>this.deleteRecipe(current)}
+									deleteTemp={()=>this.deleteTemp()}
 									/>
 							</div>
 						</div>
@@ -283,20 +337,29 @@ class List extends React.Component {
 	constructor(props) {
     super(props);
     this.state = {
-      search: ""
+			search: "",
+			recipesAPI: {}
     }
     this.filterRecipes = this.filterRecipes.bind(this);
-    this.clearSearch = this.clearSearch.bind(this);
+		this.clearSearch = this.clearSearch.bind(this);
+		this.recipeAPI = this.recipeAPI.bind(this);
+		this.allRecipes = this.allRecipes.bind(this);
 	}
 	
 	deleteRecipe(event) {
-		var num = Number(event.target.parentNode.parentNode.classList[1].slice(2));
+		const num = Number(event.target.parentNode.parentNode.classList[1].slice(2));
 		this.props.deleteRecipe(num);
 	}
 	
 	editRecipe(event) {
-		var num = Number(event.target.parentNode.parentNode.classList[1].slice(2));
+		const num = Number(event.target.parentNode.parentNode.classList[1].slice(2));
 		this.props.editRecipe(num);
+	}
+
+	addRecipeAPI(event, temp) {
+		const num = Number(event.target.parentNode.parentNode.classList[1].slice(6));
+		const newRecipe = this.state.recipesAPI.hits[num];
+		this.props.addRecipeAPI(newRecipe, temp);
 	}
 	
 	clicked(event) {
@@ -313,19 +376,44 @@ class List extends React.Component {
 		
 		this.props.click(num);		
 	}
+	
+	clickedAPI(event) {
+		var num, temp = true;
+		if (event.target.classList.contains("btn-save")) {
+
+			// FIXME: INELEGANT SOLUTION TO CHANGE LASS AND ADD TEXT TO CLICKED BUTTON... LOOK FOR BETTER SOLUTION!
+			const id = event.target.id;
+			const btnElem = document.getElementById(id);
+			btnElem.classList.add("btn-success");
+			btnElem.innerText = "Added!";
+			temp = false;
+
+			num = Number(event.target.parentNode.parentNode.classList[1].slice(6));
+		} else if (event.target.classList.contains("list-group-item")) {
+			num = Number(event.target.classList[1].slice(6));
+		} else {
+			num = Number(event.target.parentNode.classList[1].slice(6));
+		}
+		
+		const newRecipe = this.state.recipesAPI.hits[num];
+		this.props.addRecipeAPI(newRecipe, temp);
+	}
   
   filterRecipes(event) {
     // Filter recipe book
 
-    event.preventDefault();
+		event.preventDefault();
     
 		// dynamically update State with values of input fields		
 		const value = event.target.value;
 		const name = event.target.name;
+		
+		// call recipe API to search for external recipes
+		this.recipeAPI(value);
     
     var recipes = this.props.recipes.slice();
     var filterList = this.props.recipes.slice();
-    this.setState({[name]: value}, ()=> {
+    this.setState({[name]: value}, () => {
       // Declare variables
       var title;
       var filter = this.state.search.toLowerCase();
@@ -347,41 +435,155 @@ class List extends React.Component {
   }
 
   clearSearch() {
+		const newRecipes = this.props.deleteTemp();
     this.setState({
       search: "",
-      recipes: this.props.recipes
-    });
-  }
+			recipes: newRecipes,
+			recipesAPI: {}
+		});
+	}
+
+	recipeAPI(query) {
+		const app_id = "ac2807b8";
+		// const app_key = "af6c26685971c69e44b7de2b4342d3ce";
+		const app_key = "ddb0d451c4388da41cd0fd043654f23c";
+		const recipeURL	= 
+			"https://api.edamam.com/search?q=" + query + 
+			"&app_id=" + app_id + "" + 
+			"&app_key=" + app_key + "";
+
+		// let headers = new Headers({
+		// 	'Access-Control-Allow-Origin':'',
+		// 	'Content-Type': 'text/xml'
+		// });
+
+		// var myInit = { 
+		// 	method: 'GET',
+		// 	headers: headers,
+		// 	mode: 'cors',
+		// 	cache: 'default' };
+		fetch(recipeURL) // Call the fetch function passing the url of the API as a parameter
+			.then( (response) => { 
+			if (!response.ok) {
+				throw Error("Network Request Failed");
+			}
+			return response
+			})
+			.then( (response) => response.json() ) // change data into JSON
+			.then( (response) => this.allRecipes(response)
+			
+			);
+
+	}
+
+	allRecipes(obj) {
+		this.setState({
+			recipesAPI: obj
+		});
+	}
+
+	getWeather() {
+		// const query = "chicken"
+		// const app_id = "ac2807b8";
+		// const app_key = "af6c26685971c69e44b7de2b4342d3ce";
+		// const recipeURL	= 
+		// 	"https://api.edamam.com/search/q=" + query + 
+		// 	"&app_id=" + app_id + "" + 
+		// 	"&app_key=" + app_key + "";
+		// 	console.log("URL: ", recipeURL);
+			
+
+		const query = "chicken";
+		const app_key = "fc321b8c2e2be585c60a28d278aa34f9";
+		const searchURL	= 
+			"http://food2fork.com/api/search?key=" + app_key + "&q=" + query;
+			console.log("URL: ", searchURL);
+		// const recipeURL	= 
+		// 	"http://food2fork.com/api/search/key=" + app_key + 
+		// 	"&rId=" + recipeID;
+		// 	console.log("URL: ", recipeURL);
+
+	
+		var request = new XMLHttpRequest();
+		// request.open("GET", "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&APPID=9109e43ce9bf3d94ec86481f37d3fd14", true);
+		request.open("GET", searchURL, true);
+		request.setRequestHeader('Access-Control-Allow-Origin','*',);
+		request.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+		request.setRequestHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+		request.send();
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				// raw JSON response from server request
+				var data = request.responseText;
+				// console.log("data: ",data);
+
+				// parsed JSON response -> javascript object
+				var dataObj = JSON.parse(data)
+				// console.log("json: ",dataObj);
+
+				// unique pageIDs from search results
+				var keys = Object.keys(dataObj);
+				// console.log("keys: ",keys);
+				
+				console.log(dataObj);
+			}
+		}
+	}
 
   componentWillMount() {
     this.setState({
       recipes: this.props.recipes
-    })
+		});
+		
   }
-
-	componentWillReceiveProps(nextProps) {
-		// Called when the props provided to the component are changed
-    // console.log("props", nextProps);
-    // this.clearSearch();
-	}
 	
 	render() {
-    const list = (this.state.search.length>0)?this.state.recipes:this.props.recipes;
-    // const list = this.state.recipes;
-		const panel = list.map( (elems, i)=>{			
+		const list = (this.state.search.length>0)?this.state.recipes:this.props.recipes;
+		let panel = list.map( (recipeElem, i)=>{
 			return (
-				<a key={"no" + i} href="#" className={"list-group-item " + "no"+i} onClick={(e)=>this.clicked(e)}>
+				<a key={"no" + this.props.recipes.indexOf(recipeElem)} href="#" className={"list-group-item " + "no"+this.props.recipes.indexOf(recipeElem)} onClick={(e)=>this.clicked(e)}>
 					<div className="btn-group">
 						<button className="btn btn-warning btn-xs btn-edit">edit</button>
 						<button className="btn btn-danger btn-xs btn-delete">x</button>
 					</div>
-					<span className="badge">Ingredients: {elems.ingredients.split(",").length}</span>
-					<h4 className="list-group-item-heading">{elems.title}</h4>
-					<p className="list-group-item-text">{elems.description}</p>
+					<span className="badge">Ingredients: {recipeElem.ingredients.split(",").length}</span>
+					<h4 className="list-group-item-heading">{recipeElem.title}</h4>
+					<p className="list-group-item-text">{recipeElem.description}</p>
 				</a>
 			);
 		});
-		
+
+		var ingredientsNumber, title, description, key=0;
+		var listAPI = this.state.recipesAPI;
+		let panelAPI = [];
+		if ((listAPI) && Object.keys(listAPI).length !== 0 && listAPI.constructor === Object) {
+			for (var recipe of listAPI.hits) {				
+				ingredientsNumber = recipe.recipe.ingredients.length;
+				title = recipe.recipe.label;
+				description = "#" + recipe.recipe.healthLabels.join(", #");
+				panelAPI.push(
+					<a key={"API_no"+key} href="#" className={"list-group-item " + "API_no"+key + " list-group-item-api"} onClick={(e)=>this.clickedAPI(e)}>
+						<div className="btn-group">
+							<button className="btn btn-primary btn-xs btn-save" onClick={this.changeBtnClass} id={"API_Btn_"+key}>save recipe</button>
+						</div>
+						<span className="badge">Ingredients: {ingredientsNumber}</span>
+						<h4 className="list-group-item-heading">{title}</h4>
+						<p className="list-group-item-text">{description}</p>
+					</a>
+				);
+				key+=1;
+			}
+		} else if (this.state.search.length>0) {
+			panelAPI.push(
+				<a key={"API_no0"}  href="#" className="list-group-item list-group-item-api">
+					<h4 className="list-group-item-heading">Searching...</h4>
+				</a>
+			);
+		}
+
+		panel = panel.concat(panelAPI);
+
 		return (
 			<div className="container-fluid">
         <div className="form-group">
@@ -423,11 +625,16 @@ class Recipe extends React.Component {
 	render() {
     var steps, panel;
     if (this.props.recipe) {
-      steps = this.props.recipe.steps.split(",").map((step,index)=> {
-        return  (
-          <li key={index} className="output-steps">{step}</li>
-          );
-      });
+
+			if (this.props.recipe.steps) {
+				steps = this.props.recipe.steps.split(",").map((step,index)=> {
+					return  (
+						<li key={index} className="output-steps">{step}</li>
+						);
+				});
+			} else {
+				steps = <p className="output-steps">Visit <a href={this.props.recipe.link}>{this.props.recipe.linkName}</a> for full recipe!</p>
+			}
 		
 		panel = 
 				<div className="panel panel-warning text-left">
@@ -453,12 +660,10 @@ class Recipe extends React.Component {
 		return (
 			<div className="container-fluid">
 				<div className="row">
-					<div className="col-sm-12">
-					
+					<div className="col-sm-12">					
 						<div className="panel-group">
 							{panel}
-						</div>
-						
+						</div>						
 					</div>
 				</div>
 			</div>

@@ -58,8 +58,7 @@ body {
 .panel-heading {
   font-size: 2.5em;
   font-family: 'Gurajada', serif;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important; }
+  line-height: 1em; }
 
 .panel-body {
   font-family: 'Bellefair', serif;
@@ -92,12 +91,19 @@ body {
 .list-group-item-text, .output-description {
   font-style: italic; }
 
+.list-group-item-api {
+  border: 1px solid #EACBD0;
+  background: floralwhite;
+  opacity: 0.65; }
+
+.list-group-item-api:hover {
+  opacity: 1 !important;
+  background: floralwhite !important; }
+
 #recipeBook {
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 50vh;
-  padding-top: -2px !important;
-  padding-right: 5px !important; }
+  max-height: 50vh; }
 
 #recipeBook::-webkit-scrollbar {
   width: 0.3em;
